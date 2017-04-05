@@ -1,4 +1,4 @@
-This is an example DataPackage that demonstrates usage of "Vega Graph Specifications". This Demo Data Package implements an example from [here](https://vega.github.io/vega-editor/?mode=vega&spec=lifelines).
+This is an example DataPackage that displays lifelines of the first 5 presidents of the US and demonstrates usage of "Vega Graph Specifications". This Data Package is based on [this example](https://vega.github.io/vega-editor/?mode=vega&spec=lifelines).
 
 ## Views
 
