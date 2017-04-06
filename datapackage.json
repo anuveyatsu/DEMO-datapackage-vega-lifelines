@@ -1,5 +1,5 @@
 {
-  "name": "lifelines",
+  "name": "vega-lifelines",
   "title": "Lifelines of first 5 US presidents",
   "sources": [{
     "name": "vega-datasets",
