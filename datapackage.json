@@ -59,18 +59,17 @@
     {
       "name": "demo-datapackage-vega",
       "title": "Lifelines of first 5 US presidents",
+      "resources": [0, 1],
       "specType": "vega",
       "spec": {
         "width": 800,
         "height": 200,
         "data": [
           {
-            "name": "people",
-            "source": "people"
+            "name": "people"
           },
           {
             "name": "events",
-            "source": "events",
             "format": {"type":"json", "parse":{"when":"date"}}
           }
         ],
