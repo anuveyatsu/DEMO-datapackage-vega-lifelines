@@ -1,6 +1,6 @@
 {
-  "name": "vega-lifelines",
-  "title": "Lifelines of first 5 US presidents",
+  "name": "vega-views-tutorial-lines",
+  "title": "Vega Graph Spec Tutorial - US presidents",
   "sources": [{
     "name": "vega-datasets",
     "web": "https://github.com/vega/vega-datasets"
@@ -59,7 +59,7 @@
     {
       "name": "demo-datapackage-vega",
       "title": "Lifelines of first 5 US presidents",
-      "resources": [0, 1],
+      "resources": ["people", "events"],
       "specType": "vega",
       "spec": {
         "width": 800,
