@@ -1,20 +1,136 @@
-This is an example Data Package, that demonstrates how to build the awesome visualizations using the "Vega Graph Spec". We are using lifelines of the first 5 presidents of the US - one of the examples from [vega editor][editor] - and displaying it here, on DataHub with slightest modifications in vega-spec.
+This is an example dataset, that demonstrates how to build visualizations using the "Vega Graph Spec". We are using lifelines of the first 5 presidents of the US - one of the examples from [vega editor][editor] - and displaying it here, on DataHub with small modifications in vega-spec.
 
 ## Views
 
-We assume that you are familiar with what [datapackage.json][datapackage.json] is and it's specifications.
+We assume that you are familiar with what [datapackage.json][datapackage.json] is and its specifications.
 
-To create graphs for your tabular Data Package, the `datapackage.json` should include the `views` attribute that is responsible for visualizations.
+To create graphs for your tabular data, the `datapackage.json` should include the `views` attribute that is used for visualizations.
 
-If you are familiar with [Vega][vega] specifications, you would probably like to use all it's futures and display you data with desired visualizations in a Vega way. To use it, inside `views` you should set `specType` to "vega" and define some graph specifications in `spec`. See example datapackage.json:
+If you are familiar with [Vega][vega] specifications, you probably would like to use all its features. To use it, inside `views` you should set `specType` to `"vega"` and define some graph specifications in `spec` property. See below for more details.
 
 ### Vega Graph Specifications
 
-{{ datapackage.json }}
+This is the `views` property that is used for this page:
+
+```
+{
+  ...,
+  "views": [
+    {
+      "name": "demo-datapackage-vega",
+      "title": "Lifelines of first 5 US presidents",
+      "resources": ["people", "events"],
+      "specType": "vega",
+      "spec": {
+        "width": 800,
+        "height": 200,
+        "data": [
+          {
+            "name": "people"
+          },
+          {
+            "name": "events",
+            "format": {"type":"json", "parse":{"when":"date"}}
+          }
+        ],
+        "scales": [
+          {
+            "name": "y",
+            "type": "ordinal",
+            "range": "height",
+            "domain": {"data": "people", "field": "label"}
+          },
+          {
+            "name": "x",
+            "type": "time",
+            "range": "width",
+            "round": true,
+            "nice": "year",
+            "domain": {"data": "people", "field": ["born", "died"]}
+          }
+        ],
+        "axes": [
+          {"type": "x", "scale": "x"}
+        ],
+        "marks": [
+          {
+            "type": "text",
+            "from": {"data": "events"},
+            "properties": {
+              "enter": {
+                "x": {"scale": "x", "field": "when"},
+                "y": {"value": -10},
+                "angle": {"value": -25},
+                "fill": {"value": "#000"},
+                "text": {"field": "name"},
+                "font": {"value": "Helvetica Neue"},
+                "fontSize": {"value": 10}
+              }
+            }
+          },
+          {
+            "type": "rect",
+            "from": {"data": "events"},
+            "properties": {
+              "enter": {
+                "x": {"scale": "x", "field": "when"},
+                "y": {"value": -8},
+                "width": {"value": 1},
+                "height": {"field": {"group": "height"}, "offset": 8},
+                "fill": {"value": "#888"}
+              }
+            }
+          },
+          {
+            "type": "text",
+            "from": {"data": "people"},
+            "properties": {
+              "enter": {
+                "x": {"scale": "x", "field": "born"},
+                "y": {"scale": "y", "field": "label", "offset": -3},
+                "fill": {"value": "#000"},
+                "text": {"field": "label"},
+                "font": {"value": "Helvetica Neue"},
+                "fontSize": {"value": 10}
+              }
+            }
+          },
+          {
+            "type": "rect",
+            "from": {"data": "people"},
+            "properties": {
+              "enter": {
+                "x": {"scale": "x", "field": "born"},
+                "x2": {"scale": "x", "field": "died"},
+                "y": {"scale": "y", "field": "label"},
+                "height": {"value": 2},
+                "fill": {"value": "#557"}
+              }
+            }
+          },
+          {
+            "type": "rect",
+            "from": {"data": "people"},
+            "properties": {
+              "enter": {
+                "x": {"scale": "x", "field": "enter"},
+                "x2": {"scale": "x", "field": "leave"},
+                "y": {"scale": "y", "field": "label", "offset":-1},
+                "height": {"value": 4},
+                "fill": {"value": "#e44"}
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+```
 
 <br>
 
-You can use almost the same specifications inside `spec` attribute, that are used for setting the vega graphs. Only difference is that in `data` property, `url` and `path` attributes are moved out.
+You can use almost the same specifications inside `spec` attribute, that are used for setting the Vega graphs. Only difference is that in `data` property, `url` and `path` attributes are moved out. Instead we use `name` attribute to reference to a resource. Note, how we created a new object inside `data` property - `{"name": "flights-airport"}` to reference it to a resource (this names are identical to names of resources):
 
 ```
   ...
@@ -31,8 +147,6 @@ You can use almost the same specifications inside `spec` attribute, that are use
     ],
   }
 ```
-
-Instead we use `name` attribute to reference to a dataset. Note, how we created a new object inside `data` property - `{"name": "people"}` to reference it to resources (this names are identical to names of resources)
 
 Outside of `spec` attribute there are some other important parameters to note:
 
@@ -70,3 +184,4 @@ Outside of `spec` attribute there are some other important parameters to note:
 
 [vega]: https://vega.github.io/vega/
 [editor]: https://vega.github.io/vega-editor/?mode=vega&spec=lifelines
+[datapackage.json]: http://specs.frictionlessdata.io/data-package/
