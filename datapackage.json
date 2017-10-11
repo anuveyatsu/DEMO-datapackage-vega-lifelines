@@ -69,8 +69,10 @@
       ],
       "specType": "vega",
       "spec": {
+        "$schema": "https://vega.github.io/schema/vega/v3.0.json",
         "width": 800,
         "height": 200,
+        "padding": 5,
         "data": [
           {
             "name": "people"
@@ -87,23 +89,27 @@
         ],
         "scales": [
           {
-            "name": "y",
-            "type": "ordinal",
-            "range": "height",
+            "name": "yscale",
+            "type": "band",
+            "range": [
+              0,
+              {
+                "signal": "height"
+              }
+            ],
             "domain": {
               "data": "people",
               "field": "label"
             }
           },
           {
-            "name": "x",
+            "name": "xscale",
             "type": "time",
             "range": "width",
             "round": true,
-            "nice": "year",
             "domain": {
               "data": "people",
-              "field": [
+              "fields": [
                 "born",
                 "died"
               ]
@@ -112,8 +118,8 @@
         ],
         "axes": [
           {
-            "type": "x",
-            "scale": "x"
+            "orient": "bottom",
+            "scale": "xscale"
           }
         ],
         "marks": [
@@ -122,10 +128,10 @@
             "from": {
               "data": "events"
             },
-            "properties": {
+            "encode": {
               "enter": {
                 "x": {
-                  "scale": "x",
+                  "scale": "xscale",
                   "field": "when"
                 },
                 "y": {
@@ -140,9 +146,6 @@
                 "text": {
                   "field": "name"
                 },
-                "font": {
-                  "value": "Helvetica Neue"
-                },
                 "fontSize": {
                   "value": 10
                 }
@@ -154,10 +157,10 @@
             "from": {
               "data": "events"
             },
-            "properties": {
+            "encode": {
               "enter": {
                 "x": {
-                  "scale": "x",
+                  "scale": "xscale",
                   "field": "when"
                 },
                 "y": {
@@ -183,14 +186,14 @@
             "from": {
               "data": "people"
             },
-            "properties": {
+            "encode": {
               "enter": {
                 "x": {
-                  "scale": "x",
+                  "scale": "xscale",
                   "field": "born"
                 },
                 "y": {
-                  "scale": "y",
+                  "scale": "yscale",
                   "field": "label",
                   "offset": -3
                 },
@@ -199,9 +202,6 @@
                 },
                 "text": {
                   "field": "label"
-                },
-                "font": {
-                  "value": "Helvetica Neue"
                 },
                 "fontSize": {
                   "value": 10
@@ -214,18 +214,18 @@
             "from": {
               "data": "people"
             },
-            "properties": {
+            "encode": {
               "enter": {
                 "x": {
-                  "scale": "x",
+                  "scale": "xscale",
                   "field": "born"
                 },
                 "x2": {
-                  "scale": "x",
+                  "scale": "xscale",
                   "field": "died"
                 },
                 "y": {
-                  "scale": "y",
+                  "scale": "yscale",
                   "field": "label"
                 },
                 "height": {
@@ -242,18 +242,18 @@
             "from": {
               "data": "people"
             },
-            "properties": {
+            "encode": {
               "enter": {
                 "x": {
-                  "scale": "x",
+                  "scale": "xscale",
                   "field": "enter"
                 },
                 "x2": {
-                  "scale": "x",
+                  "scale": "xscale",
                   "field": "leave"
                 },
                 "y": {
-                  "scale": "y",
+                  "scale": "yscale",
                   "field": "label",
                   "offset": -1
                 },

@@ -22,102 +22,200 @@ This is the `views` property that is used for this page:
       "resources": ["people", "events"],
       "specType": "vega",
       "spec": {
+        "$schema": "https://vega.github.io/schema/vega/v3.0.json",
         "width": 800,
         "height": 200,
+        "padding": 5,
         "data": [
           {
             "name": "people"
           },
           {
             "name": "events",
-            "format": {"type":"json", "parse":{"when":"date"}}
+            "format": {
+              "type": "json",
+              "parse": {
+                "when": "date"
+              }
+            }
           }
         ],
         "scales": [
           {
-            "name": "y",
-            "type": "ordinal",
-            "range": "height",
-            "domain": {"data": "people", "field": "label"}
+            "name": "yscale",
+            "type": "band",
+            "range": [
+              0,
+              {
+                "signal": "height"
+              }
+            ],
+            "domain": {
+              "data": "people",
+              "field": "label"
+            }
           },
           {
-            "name": "x",
+            "name": "xscale",
             "type": "time",
             "range": "width",
             "round": true,
-            "nice": "year",
-            "domain": {"data": "people", "field": ["born", "died"]}
+            "domain": {
+              "data": "people",
+              "fields": [
+                "born",
+                "died"
+              ]
+            }
           }
         ],
         "axes": [
-          {"type": "x", "scale": "x"}
+          {
+            "orient": "bottom",
+            "scale": "xscale"
+          }
         ],
         "marks": [
           {
             "type": "text",
-            "from": {"data": "events"},
-            "properties": {
+            "from": {
+              "data": "events"
+            },
+            "encode": {
               "enter": {
-                "x": {"scale": "x", "field": "when"},
-                "y": {"value": -10},
-                "angle": {"value": -25},
-                "fill": {"value": "#000"},
-                "text": {"field": "name"},
-                "font": {"value": "Helvetica Neue"},
-                "fontSize": {"value": 10}
+                "x": {
+                  "scale": "xscale",
+                  "field": "when"
+                },
+                "y": {
+                  "value": -10
+                },
+                "angle": {
+                  "value": -25
+                },
+                "fill": {
+                  "value": "#000"
+                },
+                "text": {
+                  "field": "name"
+                },
+                "fontSize": {
+                  "value": 10
+                }
               }
             }
           },
           {
             "type": "rect",
-            "from": {"data": "events"},
-            "properties": {
+            "from": {
+              "data": "events"
+            },
+            "encode": {
               "enter": {
-                "x": {"scale": "x", "field": "when"},
-                "y": {"value": -8},
-                "width": {"value": 1},
-                "height": {"field": {"group": "height"}, "offset": 8},
-                "fill": {"value": "#888"}
+                "x": {
+                  "scale": "xscale",
+                  "field": "when"
+                },
+                "y": {
+                  "value": -8
+                },
+                "width": {
+                  "value": 1
+                },
+                "height": {
+                  "field": {
+                    "group": "height"
+                  },
+                  "offset": 8
+                },
+                "fill": {
+                  "value": "#888"
+                }
               }
             }
           },
           {
             "type": "text",
-            "from": {"data": "people"},
-            "properties": {
+            "from": {
+              "data": "people"
+            },
+            "encode": {
               "enter": {
-                "x": {"scale": "x", "field": "born"},
-                "y": {"scale": "y", "field": "label", "offset": -3},
-                "fill": {"value": "#000"},
-                "text": {"field": "label"},
-                "font": {"value": "Helvetica Neue"},
-                "fontSize": {"value": 10}
+                "x": {
+                  "scale": "xscale",
+                  "field": "born"
+                },
+                "y": {
+                  "scale": "yscale",
+                  "field": "label",
+                  "offset": -3
+                },
+                "fill": {
+                  "value": "#000"
+                },
+                "text": {
+                  "field": "label"
+                },
+                "fontSize": {
+                  "value": 10
+                }
               }
             }
           },
           {
             "type": "rect",
-            "from": {"data": "people"},
-            "properties": {
+            "from": {
+              "data": "people"
+            },
+            "encode": {
               "enter": {
-                "x": {"scale": "x", "field": "born"},
-                "x2": {"scale": "x", "field": "died"},
-                "y": {"scale": "y", "field": "label"},
-                "height": {"value": 2},
-                "fill": {"value": "#557"}
+                "x": {
+                  "scale": "xscale",
+                  "field": "born"
+                },
+                "x2": {
+                  "scale": "xscale",
+                  "field": "died"
+                },
+                "y": {
+                  "scale": "yscale",
+                  "field": "label"
+                },
+                "height": {
+                  "value": 2
+                },
+                "fill": {
+                  "value": "#557"
+                }
               }
             }
           },
           {
             "type": "rect",
-            "from": {"data": "people"},
-            "properties": {
+            "from": {
+              "data": "people"
+            },
+            "encode": {
               "enter": {
-                "x": {"scale": "x", "field": "enter"},
-                "x2": {"scale": "x", "field": "leave"},
-                "y": {"scale": "y", "field": "label", "offset":-1},
-                "height": {"value": 4},
-                "fill": {"value": "#e44"}
+                "x": {
+                  "scale": "xscale",
+                  "field": "enter"
+                },
+                "x2": {
+                  "scale": "xscale",
+                  "field": "leave"
+                },
+                "y": {
+                  "scale": "yscale",
+                  "field": "label",
+                  "offset": -1
+                },
+                "height": {
+                  "value": 4
+                },
+                "fill": {
+                  "value": "#e44"
+                }
               }
             }
           }
@@ -183,5 +281,5 @@ Outside of `spec` attribute there are some other important parameters to note:
 </table>
 
 [vega]: https://vega.github.io/vega/
-[editor]: https://vega.github.io/vega-editor/?mode=vega&spec=lifelines
+[editor]: https://vega.github.io/editor/#/examples/vega/timelines
 [datapackage.json]: http://specs.frictionlessdata.io/data-package/
